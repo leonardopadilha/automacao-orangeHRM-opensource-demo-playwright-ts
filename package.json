@@ -1,0 +1,22 @@
+{
+  "name": "orange_opensource",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:ch": "npx playwright test --project=chromium",
+    "test:cenario": "npx playwright test",
+    "test:debug": "npx playwright test --debug",
+    "test:codegen": "npx playwright codegen"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.4.0"
+  }
+}
