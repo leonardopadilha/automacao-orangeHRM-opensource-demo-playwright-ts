@@ -7,7 +7,7 @@
     "test": "npx playwright test",
     "test:ui": "npx playwright test --ui",
     "test:ch": "npx playwright test --project=chromium",
-    "test:cenario": "npx playwright test",
+    "test:cen": "npx playwright test",
     "test:debug": "npx playwright test --debug",
     "test:codegen": "npx playwright codegen"
   },

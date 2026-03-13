@@ -3,10 +3,12 @@ import LoginPage from '../page-objects/LoginPage';
 
 let loginPage: LoginPage;
 
+const LOGIN_URL = '/web/index.php/auth/login'
+
 test.beforeEach(async ({ page }) => {
   loginPage = new LoginPage(page);
 
-  await loginPage.navigateTo('/web/index.php/auth/login');
+  await loginPage.navigateTo(LOGIN_URL);
 })
 
 test('Verificar título da página', async ({ page }) => {
@@ -23,32 +25,17 @@ test('Validar mensagem de erro ao realizar login com credenciais em branco', asy
 });
 
 test('Validar mensagem de erro ao realizar login com usuário inválido', async ({ page }) => {
-  await page.goto('/web/index.php/auth/login');
-
-  await page.getByPlaceholder('Username').fill('invalid_username')
-  await page.getByPlaceholder('Password').fill('admin123')
-
-  await page.getByRole('button', { name: 'Login' }).click()
-  await expect(page.getByText('Invalid credentials')).toBeVisible()
+  await loginPage.login('invalid_username', 'admin123')
+  expect(await loginPage.getInvalidCredentials()).toEqual('Invalid credentials')
 })
 
 test('Validar mensagem de erro ao realizar login com senha inválida', async ({ page }) => {
-  await page.goto('/web/index.php/auth/login');
-
-  await page.getByPlaceholder('Username').fill('Admin')
-  await page.getByPlaceholder('Password').fill('admin1234')
-
-  await page.getByRole('button', { name: 'Login' }).click()
-  await expect(page.getByText('Invalid credentials')).toBeVisible()
+  await loginPage.login('Admin', 'admin1234')
+  expect(await loginPage.getInvalidCredentials()).toEqual('Invalid credentials')
 })
 
-test('Realizar login com credenciais válidas e validar sucesso', async ({ page }) => {
-  await page.goto('/web/index.php/auth/login')
-
-  await page.getByPlaceholder('Username').fill('Admin')
-  await page.getByPlaceholder('Password').fill('admin123')
-
-  await page.getByRole('button', { name: 'Login' }).click()
+test('Realizar login com credenciais válidas', async ({ page }) => {
+  await loginPage.login('Admin', 'admin123')
 
   // Valida redirecionamento para o dashboard após login
   await expect(page).toHaveURL(/\/web\/index\.php\/dashboard\/index/)

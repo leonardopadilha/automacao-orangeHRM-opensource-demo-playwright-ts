@@ -6,6 +6,7 @@ export default class LoginPage {
     private readonly passwordInput: Locator;
     private readonly loginButton: Locator;
     private readonly errorMessage: Locator;
+    private readonly invalidCredentials: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -13,6 +14,7 @@ export default class LoginPage {
         this.passwordInput = page.getByPlaceholder('Password')
         this.loginButton = page.getByRole('button', { name: 'Login' });
         this.errorMessage = page.locator('span[class*="error-message"]')
+        this.invalidCredentials = page.getByText('Invalid credentials')
     }
 
     async navigateTo(url: string) {
@@ -43,5 +45,9 @@ export default class LoginPage {
 
     async getErrorMessage() {
         return await this.errorMessage.allTextContents();
+    }
+
+    async getInvalidCredentials() {
+        return await this.invalidCredentials.textContent();
     }
 }
