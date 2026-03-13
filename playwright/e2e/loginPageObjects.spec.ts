@@ -16,7 +16,7 @@ test('Verificar título da página', async ({ page }) => {
   await expect(page).toHaveTitle(/OrangeHRM/);
 });
 
-test('Validar mensagem de erro ao realizar login com credenciais em branco', async ({ page }) => {
+test('Validar mensagem de erro ao realizar login com credenciais em branco', async () => {
   await loginPage.login();
 
   const errorMessages = await loginPage.getErrorMessage()
@@ -24,12 +24,12 @@ test('Validar mensagem de erro ao realizar login com credenciais em branco', asy
   expect(errorMessages).toEqual(['Required', 'Required'])
 });
 
-test('Validar mensagem de erro ao realizar login com usuário inválido', async ({ page }) => {
+test('Validar mensagem de erro ao realizar login com usuário inválido', async () => {
   await loginPage.login('invalid_username', 'admin123')
   expect(await loginPage.getInvalidCredentials()).toEqual('Invalid credentials')
 })
 
-test('Validar mensagem de erro ao realizar login com senha inválida', async ({ page }) => {
+test('Validar mensagem de erro ao realizar login com senha inválida', async () => {
   await loginPage.login('Admin', 'admin1234')
   expect(await loginPage.getInvalidCredentials()).toEqual('Invalid credentials')
 })
