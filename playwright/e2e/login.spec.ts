@@ -1,49 +1,31 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../setup/fixtures';
 
-test('Verificar título da página', async ({ page }) => {
-  await page.goto('/web/index.php/auth/login');
-
+test('Verificar título da página', async ({ page, loginPage }) => {
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/OrangeHRM/);
 });
 
-test('Validar mensagem de erro ao realizar login com credenciais em branco', async ({ page }) => {
-  await page.goto('/web/index.php/auth/login');
+test('Validar mensagem de erro ao realizar login com credenciais em branco', async ({ loginPage }) => {
+  await loginPage.login();
 
-  await page.getByRole('button', { name: 'Login' }).click()
-
-  const errorMessages = await page.locator('span[class*="error-message"]').allTextContents()
+  const errorMessages = await loginPage.getErrorMessage()
   expect(errorMessages).toHaveLength(2)
   expect(errorMessages).toEqual(['Required', 'Required'])
 });
 
-test('Validar mensagem de erro ao realizar login com usuário inválido', async ({ page }) => {
-  await page.goto('/web/index.php/auth/login');
-
-  await page.getByPlaceholder('Username').fill('invalid_username')
-  await page.getByPlaceholder('Password').fill('admin123')
-
-  await page.getByRole('button', { name: 'Login' }).click()
-  await expect(page.getByText('Invalid credentials')).toBeVisible()
+test('Validar mensagem de erro ao realizar login com usuário inválido', async ({ loginPage }) => {
+  await loginPage.login('invalid_username', 'admin123')
+  expect(await loginPage.getInvalidCredentials()).toEqual('Invalid credentials')
 })
 
-test('Validar mensagem de erro ao realizar login com senha inválida', async ({ page }) => {
-  await page.goto('/web/index.php/auth/login');
-
-  await page.getByPlaceholder('Username').fill('Admin')
-  await page.getByPlaceholder('Password').fill('admin1234')
-
-  await page.getByRole('button', { name: 'Login' }).click()
-  await expect(page.getByText('Invalid credentials')).toBeVisible()
+test('Validar mensagem de erro ao realizar login com senha inválida', async ({ loginPage }) => {
+  await loginPage.login('Admin', 'admin1234')
+  expect(await loginPage.getInvalidCredentials()).toEqual('Invalid credentials')
 })
 
-test('Realizar login com credenciais válidas e validar sucesso', async ({ page }) => {
-  await page.goto('/web/index.php/auth/login')
-
-  await page.getByPlaceholder('Username').fill('Admin')
-  await page.getByPlaceholder('Password').fill('admin123')
-
-  await page.getByRole('button', { name: 'Login' }).click()
+test('Realizar login com credenciais válidas e validar sucesso', async ({ page, loginPage, dashboardPage }) => {
+  await loginPage.login('Admin', 'admin123')
+  expect(await dashboardPage.userIsLogged()).toBeTruthy()
 
   // Valida redirecionamento para o dashboard após login
   await expect(page).toHaveURL(/\/web\/index\.php\/dashboard\/index/)
