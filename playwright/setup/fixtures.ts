@@ -1,6 +1,6 @@
 import { test as base, expect } from '@playwright/test';
-import LoginPage from '../page-objects/LoginPage';
-import DashboardPage from '../page-objects/DashboardPage'
+import LoginPage from '../support/pages/LoginPage';
+import DashboardPage from '../support/pages/dashboardPage'
 
 const test = base.extend<{ 
     loginPage: LoginPage,
