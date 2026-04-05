@@ -1,4 +1,4 @@
-import { test, expect } from '../setup/fixtures';
+import { test, expect } from '../../setup/fixtures';
 
 test('Verificar título da página', async ({ page, loginPage }) => {
   // Expect a title "to contain" a substring.
