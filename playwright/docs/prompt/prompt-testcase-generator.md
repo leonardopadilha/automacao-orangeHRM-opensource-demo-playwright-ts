@@ -80,4 +80,4 @@ Cada caso de teste deve seguir exatamente este formato:
 3. Inclua casos de teste para validação de campos obrigatórios.
 4. Inclua casos de teste para cada perfil de usuário listado, sempre que houver comportamentos distintos.
 5. Seja detalhado nos passos — cada ação deve ser clara o suficiente para que qualquer pessoa execute o teste sem dúvidas.
-6. Gere o resultado em formato Markdown, pronto para ser salvo em um arquivo `.md` dentro da pasta `docs/tests` do projeto.
+6. Gere o resultado em formato Markdown puro. Não inclua na resposta nenhuma instrução sobre como salvar o arquivo, nomes de arquivo ou caminhos de pasta.

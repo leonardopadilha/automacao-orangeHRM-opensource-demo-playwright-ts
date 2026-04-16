@@ -1,6 +1,8 @@
-import 'dotenv/config';
 import * as fs from 'fs';
 import * as path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import { HumanMessage } from '@langchain/core/messages';
@@ -16,8 +18,8 @@ export interface AnalysisOptions {
 function buildLLM(provider: LLMProvider) {
   if (provider === 'gemini') {
     return new ChatGoogleGenerativeAI({
-      model: 'gemini-2.0-flash',
-      apiKey: process.env.GOOGLE_API_KEY,
+      model: 'gemini-3-flash-preview',
+      apiKey: process.env.GOOGLE_API_KEY
     });
   }
 
@@ -43,12 +45,8 @@ function loadPromptTemplate(pageContext: string): string {
     .replace('{{businessRules}}', 'Infira as regras de negócio a partir dos elementos, campos, botões e fluxos visíveis na tela.');
 }
 
-function buildMessage(screenshotBase64: string, pageContext: string, provider: LLMProvider): HumanMessage {
+function buildMessage(screenshotBase64: string, pageContext: string): HumanMessage {
   const prompt = loadPromptTemplate(pageContext);
-
-  const imageContent = provider === 'gemini'
-    ? { type: 'media', mimeType: 'image/png', data: screenshotBase64 }
-    : { type: 'image_url', image_url: { url: `data:image/png;base64,${screenshotBase64}` } };
 
   return new HumanMessage({
     content: [
@@ -56,7 +54,10 @@ function buildMessage(screenshotBase64: string, pageContext: string, provider: L
         type: 'text',
         text: prompt,
       },
-      imageContent,
+      {
+        type: 'image_url',
+        image_url: { url: `data:image/png;base64,${screenshotBase64}` },
+      },
     ],
   });
 }
@@ -66,7 +67,7 @@ function buildMarkdown(suggestions: string, pageContext: string, provider: LLMPr
   return `# Cenários de Teste Sugeridos
 
 **Página analisada:** ${pageContext || 'Não informada'}  
-**Provedor LLM:** ${provider === 'openai' ? 'OpenAI (gpt-4o)' : 'Google Gemini (gemini-2.0-flash)'}  
+**Provedor LLM:** ${provider === 'openai' ? 'OpenAI (gpt-4o)' : 'Google Gemini (gemini-3-flash-preview)'}  
 **Gerado em:** ${timestamp}
 
 ---
@@ -100,7 +101,7 @@ export async function analyzePageAndSuggestTests(
     path.resolve(process.cwd(), 'cenarios_sugeridos.md');
 
   const llm = buildLLM(provider);
-  const message = buildMessage(screenshotBase64, pageContext, provider);
+  const message = buildMessage(screenshotBase64, pageContext);
 
   const response = await llm.invoke([message]);
   const suggestions = typeof response.content === 'string'

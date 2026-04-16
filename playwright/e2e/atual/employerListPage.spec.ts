@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { expect } from "../../setup/fixtures";
 import { testeLogado } from "../../setup/testeLogado";
 import { EnumMenuOption } from '../../support/enum/MenuOptions';
@@ -12,6 +13,7 @@ testeLogado.describe('Lista de Empregados', () => {
 
         await captureAndAnalyzePage(page, {
             pageContext: `Lista de Empregados - ${page.url()}`,
+            outputPath: path.resolve(process.cwd(), 'playwright/docs/tests/casos_de_teste_lista_empregados.md'),
         })
     })
 })
