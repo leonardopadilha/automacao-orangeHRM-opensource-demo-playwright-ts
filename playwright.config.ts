@@ -1,17 +1,22 @@
 import { defineConfig, devices } from '@playwright/test';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  // Tempo máximo para cada teste completo (30 segundos é o padrão)
+  timeout: 60_000,
+
+  // Tempo máximo para cada asserção (5 segundos é o padrão), toBeVisible(), toHaveText(), etc.
+  expect: {
+    timeout: 5_000 // Não vale a pena aumentar porque o teste pode ficar lento no tempo de execução, vale a pena usar o timeout explícito
+  },
+
   testDir: './playwright/e2e/atual',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -30,7 +35,7 @@ export default defineConfig({
     baseURL: 'https://opensource-demo.orangehrmlive.com',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on',
+    trace: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */
