@@ -1,4 +1,5 @@
 export enum EnumMenuOption {
     ADMIN = 'Admin',
-    USER_MANAGEMENT = 'User Management'
+    USER_MANAGEMENT = 'User Management',
+    PIM = 'PIM'
 }

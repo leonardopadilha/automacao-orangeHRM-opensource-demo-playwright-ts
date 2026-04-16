@@ -14,6 +14,10 @@ export default class DashboardPage {
 
     }
 
+    async navigateTo(url: string) {
+        await this.page.goto(url)
+    }
+
     async userIsLogged() {
         return this.userName.textContent()
     }
