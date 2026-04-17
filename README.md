@@ -4,32 +4,15 @@ Projeto de automação de testes End-to-End para o [OrangeHRM Open Source Demo](
 
 ---
 
-## Sumário
+## Tecnologias Utilizadas
 
-- [Tecnologias](#tecnologias)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Variáveis de ambiente](#variáveis-de-ambiente)
-- [Estrutura do projeto](#estrutura-do-projeto)
-- [Funcionalidades](#funcionalidades)
-  - [Autenticação com worker (sem re-login)](#autenticação-com-worker-sem-re-login)
-  - [Geração automática de cenários de teste via LLM](#geração-automática-de-cenários-de-teste-via-llm)
-- [Scripts disponíveis](#scripts-disponíveis)
-- [Configuração do Playwright](#configuração-do-playwright)
-- [Relatório](#relatório)
-
----
-
-## Tecnologias
-
-| Tecnologia | Versão | Descrição |
-|---|---|---|
-| [Playwright](https://playwright.dev/) | ^1.58 | Framework de automação E2E |
-| [TypeScript](https://www.typescriptlang.org/) | — | Linguagem dos testes |
-| [LangChain](https://js.langchain.com/) | ^1.3 | Orquestração de chamadas LLM |
-| [OpenAI GPT-4o](https://platform.openai.com/) | — | Análise visual de páginas via IA |
-| [Google Gemini](https://aistudio.google.com/) | — | Alternativa ao GPT-4o para análise visual |
-| [dotenv](https://github.com/motdotla/dotenv) | ^17 | Gerenciamento de variáveis de ambiente |
+[![Node.js](https://img.shields.io/badge/Node.js-LTS-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Playwright](https://img.shields.io/badge/Playwright-1.58-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev/)
+[![LangChain](https://img.shields.io/badge/LangChain-1.3-1C3C3C?logo=langchain&logoColor=white)](https://js.langchain.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?logo=openai&logoColor=white)](https://platform.openai.com/)
+[![Gemini](https://img.shields.io/badge/Google-Gemini-4285F4?logo=googlegemini&logoColor=white)](https://aistudio.google.com/)
+[![dotenv](https://img.shields.io/badge/dotenv-17-ECD53F?logo=dotenv&logoColor=black)](https://github.com/motdotla/dotenv)
 
 ---
 
